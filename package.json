@@ -16,5 +16,9 @@
     "url": "https://github.com/tsmliu213/image-search-api/issues"
   },
   "homepage": "https://github.com/tsmliu213/image-search-api#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongodb": "^2.2.19"
+  }
 }
