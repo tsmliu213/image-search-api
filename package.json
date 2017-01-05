@@ -1,0 +1,20 @@
+{
+  "name": "image-search",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Thomas Liu",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsmliu213/image-search-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tsmliu213/image-search-api/issues"
+  },
+  "homepage": "https://github.com/tsmliu213/image-search-api#readme",
+  "description": ""
+}
