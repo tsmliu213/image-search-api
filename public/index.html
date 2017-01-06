@@ -9,19 +9,36 @@
 
 <body>
   <div class="container">
-    <div class="row"><h1>Image search abstraction API<hr/></h1></div>
     <div class="row">
-        <pre><code>
-    {
-        url: ,
-        thumbnail: ,
-        snippet: ,
-        context: 
-    }
-        </code></pre>
-    
-    <h2>Example Image Search:</h2>
-    <h2>Example Latest Search:</h2>
+      <h1>Image search abstraction API<hr/></h1>
+      <p>Pass a search string and an optional offset query in the URL to get a set of image information relating to your search string. Image information includes URL, thumbnail image URL, snippet, and the page's URL.</p>
+      <p>Paginate through the responses by adding a <code>?offset=num</code> parameter to the URL, where <code>num</code> is a multiple of 10.</p>
+      <p>Get a list of the 10 most recently searched strings by hitting the <code>/api/latest</code> endpoint.</p>
+    </div>
+    <div class="row">
+      <h2>Example Image Search:</h2>
+      <p>
+        <code>{host}/api/search?q=bikes</code> will result in 10 items, each of which will have url, thumbnail, snippet, and context fields. <br>
+        <code>{host}/api/search?q=bikes&offset=10</code> will return the next "page," or the next set of 10 results.
+      </p>
+      <pre><code>
+  {
+    "url": "http://www.bing.com/cr?IG=561C52BACBB648A3B54E3AD718D94AB1&CID=229E9F1C677C629030D4951E664D637B&rd=1&h=8zy6i-L1ddtexdRP_ebMtRf_iTEzsSJAiXNPkUbXbtU&v=1&r=http%3a%2f%2fbrimages.bikeboardmedia.netdna-cdn.com%2fwp-content%2fuploads%2f2013%2f01%2fthunderdome11.jpg&p=DevEx,5008.1",
+    "thumbnail": "https://tse3.mm.bing.net/th?id=OIP.M828f81712dd5eff81e74b2f45020f8e3H0&pid=Api",
+    "snippet": "All-City's Track Monster The Thunderdome, Plus new Fast is Forever Kit ...",
+    "context": "http://www.bing.com/cr?IG=561C52BACBB648A3B54E3AD718D94AB1&CID=229E9F1C677C629030D4951E664D637B&rd=1&h=fXVKUepAQ7syyO0STwn42NMTGWASJFZQgHQhY69ghS0&v=1&r=http%3a%2f%2fwww.bikerumor.com%2f2013%2f01%2f09%2fall-citys-track-moster-the-thunderdome-plus-new-fast-is-forever-kit%2f&p=DevEx,5007.1"
+  }
+      </code></pre>
+      <h2>Example Latest Search:</h2>
+      <p>
+        <code>{host}/api/latest</code> will result in the most recent 10 searches, each of which will have query and time_stamp fields.
+      </p>
+      <pre><code>
+  {
+    "query":"theheavypedal",
+    "time_stamp":"2017-01-06T09:36:18.173Z"
+  }
+      </code></pre>
     </div>
     <br>
   </div> <!-- End of Container -->

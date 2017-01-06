@@ -20,7 +20,7 @@ app.get('/api/latest', function(req, res) {
            queries.findOne({visited: "visited"}, {latest: {$slice: -10}}, function(err, document) {
               if(err) console.log(err)
               else {
-                  res.end(JSON.stringify(document));
+                  res.end(JSON.stringify(document.latest));
                   db.close();
               }
            });
@@ -36,7 +36,6 @@ function addVisited(query) {
             var queries = db.collection('queries');
             queries.findOne({visited: "visited"}, function(err, document) {
                 var date = new Date();
-                
                 if(err) console.log(err);
                 else if(document) {
                     var visit = {"query": query, "time_stamp": date.toISOString()};
@@ -44,14 +43,12 @@ function addVisited(query) {
                         if(err) console.log(err)
                         else db.close();
                     });
-                    console.log("add to existing list");
                 }
                 else {
                     queries.insert({visited: "visited", latest: [{"query": query, "time_stamp": date.toISOString()}]}, function(err, result) {
                         if(err) console.log(err)
                         else db.close();
                     });
-                    console.log("first query inserted");
                 }
             });
         }
