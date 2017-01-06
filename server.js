@@ -13,7 +13,19 @@ app.get('/api', function(req, res) {
 
 });
 app.get('/api/latest', function(req, res) {
-    
+    mongodb.connect(url, function(err, db) {
+       if(err) console.log(err);
+       else {
+           var queries = db.collection('queries');
+           queries.findOne({visited: "visited"}, {latest: {$slice: -10}}, function(err, document) {
+              if(err) console.log(err)
+              else {
+                  res.end(JSON.stringify(document));
+                  db.close();
+              }
+           });
+       }
+    });
 });
 app.listen(process.env.PORT || 8080);
 
@@ -21,9 +33,10 @@ function addVisited(query) {
     mongodb.connect(url, function(err, db) {
         if(err) console.log(err);
         else {
-            var date = new Date();
             var queries = db.collection('queries');
             queries.findOne({visited: "visited"}, function(err, document) {
+                var date = new Date();
+                
                 if(err) console.log(err);
                 else if(document) {
                     var visit = {"query": query, "time_stamp": date.toISOString()};
