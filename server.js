@@ -6,12 +6,11 @@ var url = process.env.MONGOLAB_URI;
 
 var app = express();
 app.use('/', express.static(__dirname + '/public'));
-app.get('/api', function(req, res) {
+app.get('/api/search', function(req, res) {
     var query = req.query.q;
     var offset = req.query.offset;
     addVisited(query);
     bing.imgSearch(query, offset, res);
-
 });
 app.get('/api/latest', function(req, res) {
     mongodb.connect(url, function(err, db) {
