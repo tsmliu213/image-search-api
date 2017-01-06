@@ -1,25 +1,27 @@
 "use strict"
-var https = require('https');
 var exports = module.exports = {};
-
-exports.imgSearch = function() {
+exports.imgSearch = function(query, offset, response) {
+    var https = require('https');
+    var num = 0;
+    if((typeof offset == 'string') && offset.match(/[0-9]+/)) {
+        num = offset;
+    }
     var options = {
         host: 'api.cognitive.microsoft.com',
-        path: encodeURI('/bing/v5.0/images/search?q=cinelli mash&count=10&offset=0&mkt=en-us&safeSearch=Moderate'),
+        path: encodeURI('/bing/v5.0/images/search?q=' + query + '&count=10&offset=' + num + '&mkt=en-us&safeSearch=Moderate'),
         headers: {
             'Ocp-Apim-Subscription-Key': process.env.ACC_KEY,
         }
     };
     
     https.get(options, function(res) {
-        res.setEncoding('utf8');
         let rawData = '';
+        res.setEncoding('utf8');
         res.on('data', (chunk) => rawData += chunk);
         res.on('end', () => {
             try {
               let parsedData = JSON.parse(rawData);
-              //console.log(parsedData);
-              print(parsedData);
+              response.end(filter(parsedData));
             } catch (e) {
               console.log(e.message);
             }
@@ -29,9 +31,16 @@ exports.imgSearch = function() {
         console.log(`Got error: ${e.message}`);
     });
     
-    function print(results) {
-        results.value.forEach(function(item) {
-            console.log(item.thumbnailUrl);
+    function filter(data) {
+        var results = [];
+        data.value.forEach(function(item) {
+            results.push({
+               "url": item.contentUrl,
+               "thumbnail": item.thumbnailUrl,
+               "snippet": item.name,
+               "context": item.hostPageUrl
+            });
         });
+        return JSON.stringify(results);
     }
 }
