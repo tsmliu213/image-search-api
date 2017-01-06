@@ -1,7 +1,8 @@
 var express = require('express');
 var bing = require('./bing.js');
 var mongodb = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/searches';
+//var url = 'mongodb://localhost:27017/searches';
+var url = process.env.MONGOLAB_URI;
 
 var app = express();
 app.use('/', express.static(__dirname + '/public'));
